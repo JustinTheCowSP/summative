@@ -1,0 +1,72 @@
+package summativen;
+
+import java.awt.*;
+import javax.swing.*;
+
+public class GridPanel extends JPanel {
+
+    public final int WINDOW_X = 500;
+    public final int WINDOW_Y = WINDOW_X + 50;
+    public final int CELLS = 20;
+    public final int CELL_SIZE = WINDOW_X / CELLS;
+    private int originX = 0;
+    private int originY = 72;
+
+    public final int MAX_POINTS = 8;
+    private final Point[] gridPoints = new Point[MAX_POINTS];
+    private int points = 0;
+
+    public GridPanel() {
+        for (int i = 0; i < MAX_POINTS; i++) {
+            gridPoints[i] = new Point();
+        }
+        points = 0;
+    }
+    
+    public void setOrigin (int x, int y){
+        originX = x;
+        originY = y;
+    }
+
+    public void addPoint(JTextField x, JTextField y) {
+        int pointX = Integer.parseInt(x.getText());
+        int pointY = Integer.parseInt(y.getText());
+        gridPoints[points] = new Point(pointX * CELL_SIZE, pointY * CELL_SIZE + CELL_SIZE + 45);
+        points++;
+    }
+    
+    public void movePoint(int pointIndex, JTextField x, JTextField y){
+        int pointX = Integer.parseInt(x.getText());
+        int pointY = Integer.parseInt(y.getText());
+        gridPoints[pointIndex].setCoords(pointX, pointY);
+    }
+
+    public void reset() {
+        for (int i = 0; i < MAX_POINTS; i++) {
+            gridPoints[i].setVisible(false);
+        }
+        points = 0;
+    }
+
+    @Override
+    public void paintComponent(Graphics g) {
+        super.paintComponent(g);
+        g.setColor(Color.white);
+        g.fillRect(0, 68, WINDOW_X, WINDOW_Y);
+
+        for (int i = 0; i < CELLS; i++) {
+            g.setColor(Color.black);
+            g.drawLine(originX, i * CELL_SIZE + originY, WINDOW_X, i * CELL_SIZE + originY);
+            g.drawLine(originX, i * CELL_SIZE + originY + CELL_SIZE - 1, WINDOW_X, i * CELL_SIZE + originY + CELL_SIZE - 1);
+            g.drawLine(i * CELL_SIZE, originY, i * CELL_SIZE, WINDOW_Y);
+            g.drawLine(i * CELL_SIZE + CELL_SIZE - 1, originY, i * CELL_SIZE + CELL_SIZE - 1, WINDOW_Y);
+            System.out.println("line draw");
+        }
+
+        for (int i = 0; i < MAX_POINTS; i++) {
+            gridPoints[i].drawPoint(g);
+            System.out.println("point draw");
+        }
+
+    }
+}
