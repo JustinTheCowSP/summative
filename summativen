@@ -1,0 +1,60 @@
+package summativen;
+
+import java.awt.*;
+import java.awt.event.*;
+import java.io.*;
+import javax.swing.*;
+
+public class SummativeN {
+
+    static JFrame quiz = new JFrame("Quiz");
+    
+    static JFrame grid = new JFrame("Grid");
+    static GridPanel gridPanel = new GridPanel();
+    static JTextField gridPointX = new JTextField(3);
+    static JTextField gridPointY = new JTextField(3);
+    static JButton gridPointAdd = new JButton("Add point");
+    static JButton gridPointReset = new JButton("Reset grid");
+
+    // sets frame properties
+    static void initFrame(JFrame frame, int width, int height, int x, int y) {
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.getContentPane().setLayout(new FlowLayout());
+        frame.setSize(width, height);
+        frame.setLocation(x, y);
+        frame.setResizable(false);
+    }
+
+    public static void main(String[] args) throws IOException {
+        initFrame(quiz, 600, 600, 200, 200);
+        quiz.setVisible(true);
+        
+        initFrame(grid, gridPanel.WINDOW_X, gridPanel.WINDOW_Y, 1000, 200);
+        grid.getContentPane().add(gridPanel);
+
+        gridPanel.add(gridPointX);
+        gridPanel.add(gridPointY);
+        gridPanel.add(gridPointAdd);
+        gridPanel.add(gridPointReset);
+
+        gridPointAdd.addActionListener((ActionEvent e) -> {
+            try {
+                gridPanel.addPoint(gridPointX, gridPointY);
+            } catch (NumberFormatException nfe) {
+                // error msg - do a number
+            }
+            gridPointX.setText("");
+            gridPointY.setText("");
+            gridPanel.paintComponent(grid.getGraphics());
+        });
+
+        gridPointReset.addActionListener((ActionEvent e) -> {
+            gridPanel.reset();
+            gridPanel.paintComponent(grid.getGraphics());
+            System.out.println("reset");
+        });
+
+        grid.setVisible(true);
+        gridPointReset.doClick();
+    }
+}
