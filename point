@@ -1,0 +1,52 @@
+package summativen;
+
+import java.awt.*;
+
+public class Point {
+
+    private int x, y;
+    private boolean shown;
+    public final int size = 9;
+
+    public Point() {
+        this.x = 0;
+        this.y = 0;
+        shown = false;
+    }
+
+    public Point(int x, int y) {
+        this.x = x;
+        this.y = y;
+        shown = true;
+    }
+
+    public void drawPoint(Graphics g) {
+        if (shown) {
+            g.setColor(Color.blue);
+            g.fillOval(x - 5, y - 3, size, size);
+        }
+
+    }
+
+    public void setCoords(int x, int y) {
+        this.x = x;
+        this.y = y;
+    }
+
+    public int getX() {
+        return x;
+    }
+
+    public int getY() {
+        return y;
+    }
+
+    public void setVisible(boolean shown) {
+        this.shown = shown;
+    }
+
+    public boolean getVisible() {
+        return shown;
+    }
+
+}
